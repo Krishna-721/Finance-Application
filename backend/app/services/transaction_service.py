@@ -2,15 +2,14 @@ from sqlalchemy.orm import Session
 from sqlalchemy import func
 from fastapi import HTTPException, status
 from typing import List, Optional
-from datetime import datetime
 from app.models.transaction import Transaction, TransactionType
 from app.models.user import User
 from app.schemas.transaction import TransactionCreate, TransactionUpdate, TransactionSummary
 
 class TransactionService:
     @staticmethod
-    def create_transaction(db: Session, transaction_data: Transaction, user: User) ->Transaction:
-        """ New Transaction for the user"""
+    def create_transaction(db: Session, transaction_data: TransactionCreate, user: User) -> Transaction:
+        """Create new transaction for the user"""
         new_transaction = Transaction(
             user_id=user.id,
             amount=transaction_data.amount,
@@ -26,23 +25,34 @@ class TransactionService:
         return new_transaction
     
     @staticmethod
-    def get_user_transaction(db: Session, user=User ,transaction_type: Optional[TransactionType]=None,
-                             category: Optional[str]=None,
-                             skip: int=0,
-                             limit: int=100)->List[Transaction]:
-        """Input
-        Get all transactions of a user
-        """    
+    def get_user_transactions(
+        db: Session, 
+        user: User,
+        transaction_type: Optional[TransactionType] = None,
+        category: Optional[str] = None,
+        skip: int = 0,
+        limit: int = 100
+    ) -> List[Transaction]:
+        """Get all transactions for a user with optional filters"""
+        # Initialize query FIRST
+        query = db.query(Transaction).filter(Transaction.user_id == user.id)
+        
+        # Apply filters if provided
         if transaction_type:
-            query=query.filter(Transaction.type==transaction_type)
+            query = query.filter(Transaction.type == transaction_type)
 
         if category:
-            query=query.filter(Transaction.category==category)
+            query = query.filter(Transaction.category.ilike(f"%{category}%"))
     
-        query=query.order_by(Transaction.date.desc())
-        transactions=query.offset(skip).limit(limit).all()
+        # Order by date (newest first)
+        query = query.order_by(Transaction.date.desc())
+        
+        # Pagination
+        transactions = query.offset(skip).limit(limit).all()
 
         return transactions
+    
+    # Keep all other methods as they are...
     
     @staticmethod
     def get_transaction_by_id(db: Session, transaction_id: int, user: User) -> Transaction:

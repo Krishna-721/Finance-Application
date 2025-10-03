@@ -153,7 +153,7 @@ def seed_database():
     try:
         requests.get(f"{BASE_URL}/health")
         print("Server is running\n")
-    except:
+    except:  # noqa: E722
         print("Server is not running! Start it with: uvicorn app.main:app --reload")
         return
     
@@ -190,7 +190,7 @@ def seed_database():
     print("=" * 50)
     print("\nSummary:")
     print(f" Users created: {len(USERS)}")
-    print(f" Transactions per user: ~10-15")
+    print(" Transactions per user: ~10-15")
     print("\nLogin Credentials:")
     for user in USERS:
         print(f"   • {user['email']} / {user['password']}")
