@@ -74,7 +74,17 @@ Progress ->
     Error handling
                 
 
-After completeing and testing the phase 1, the testing results are 200 OK - ALL the tests passed (More like dummy tests)  
+After completing and testing the phase 1, the testing results are 200 OK - ALL the tests passed (More like dummy tests)  
 Its fun developing this site
 
 The next part is to integrate ai into our bot!
+
+Chatbot implemented 
+
+Phase -2 :
+    React + vite frontend
+    Problem1: got errors while testing the website with credentials 
+    error was on tokens:  cannot access token without initializing it 
+    Fixed problem 1 by adding tokens manually in api.js
+    
+    Transactions, dashboard and registration pages are working!
