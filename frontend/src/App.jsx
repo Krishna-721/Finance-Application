@@ -3,6 +3,8 @@ import { useAuth } from './context/AuthContext';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import Transactions from './pages/Transactions';
+import Chat from './pages/Chat';
+import Navbar  from './components/navBar';
 
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth();
@@ -19,7 +21,17 @@ function App() {
 
   return (
     <BrowserRouter>
+    <Navbar />
       <Routes>
+        <Route path="/" element={user ? <Navigate to="/dashboard" /> : <Login />} />
+        <Route 
+          path="/dashboard" 
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          } 
+        />
         <Route path="/" element={user ? <Navigate to="/dashboard" /> : <Login />} />
         <Route 
           path="/dashboard" 
@@ -34,6 +46,14 @@ function App() {
           element={
             <ProtectedRoute>
               <Transactions />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/chat" 
+          element={
+            <ProtectedRoute>
+              <Chat/>
             </ProtectedRoute>
           } 
         />

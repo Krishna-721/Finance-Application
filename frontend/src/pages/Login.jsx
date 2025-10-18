@@ -43,7 +43,7 @@ function Login(){
         }
     };
     return(
-        <div style={{maxWidth:'400px',margin:'50px auto', padding:'50px'}}>
+        <div style={{alignItems: 'center',placeItems:'center',maxWidth:'400px',margin:'50px auto', padding:'50px'}}>
             <h2>{isLogin ? "Login" : "Register"}</h2>
 
             <form onSubmit={handleSubmit}>
@@ -56,7 +56,7 @@ function Login(){
                         value= {formData.full_name}
                         onChange={handleChange}
                         required={!isLogin}
-                        style={{width:'100px', padding:'20px', marginTop:'10px'}}
+                        style={{width:'500px', padding:'200px', marginTop:'10px', alignItems: 'center'}}
                         />
                     </div>
                 )}
@@ -90,7 +90,7 @@ function Login(){
         <button 
           type="submit" 
           disabled={loading}
-          style={{ width: '100%', padding: '10px', backgroundColor: '#007bff', color: 'white', border: 'none', cursor: 'pointer' }}
+          style={{ width: '100%', padding: '10px', backgroundColor: '#167ff0ff', color: 'white', border: 'none', cursor: 'pointer' }}
         >
           {loading ? 'Loading...' : (isLogin ? 'Login' : 'Register')}
         </button>
